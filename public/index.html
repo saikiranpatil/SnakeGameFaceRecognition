@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Face Recognition</title>
+
+    <!-- import bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+
+    <!-- using google icons -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+</head>
+
+<body>
+    <div class="main" id="main" style="z-index: 965;">
+        <div class="mainDisplay">
+            <div class="scoreBox">
+                <div class="gameMode">
+                    <label for="gameMode">
+                        <div class="title">
+                            Mode
+                        </div>
+                    </label>
+                    <select class="select boxMain" name="gameMode" id="gameMode">
+                        <option value="hand">Hand </option>
+                        <option value="face">Face</option>
+                        <option value="keyboard">Keyboard</option>
+                    </select>
+                </div>
+                <div class="board">
+                    <div class="title">
+                        Score
+                    </div>
+                    <div class="score boxMain">
+                        0
+                    </div>
+                </div>
+                <div class="board">
+                    <div class="title">
+                        Hi-Score
+                    </div>
+                    <div class="hiScore boxMain">
+                        0
+                    </div>
+                </div>
+                <div id="handIcon" class="modeIcons">
+                    <i class="material-icons-outlined">front_hand</i>
+                    <div id="noOfHands" class="boxMain">-</div>
+                </div>
+                <div id="faceIcon" class="modeIcons">
+                    <i class="material-icons-outlined">face</i>
+                    <div id="facePing" class="boxMain">-</div>
+                </div>
+            </div>
+            <div id="display"></div>
+        </div>
+        <div id="menu" class="hideModal">
+            <div class="gOver">Game over</div>
+            <div class="scoreBox">
+                <div class="board">
+                    <div class="title">
+                        Score
+                    </div>
+                    <div class="score boxMain">
+                        0
+                    </div>
+                </div>
+                <div class="board">
+                    <div class="title">
+                        Hi-Score
+                    </div>
+                    <div class="hiScore boxMain">
+                        0
+                    </div>
+                </div>
+                <div class="board">
+                    <div class="title">
+                        Gender
+                    </div>
+                    <div id="gender" class="boxMain">
+                        0
+                    </div>
+                </div>
+                <div class="board">
+                    <div class="title">
+                        age
+                    </div>
+                    <div id="age" class="boxMain">
+                        0
+                    </div>
+                </div>
+            </div>
+            <div class="tryBtn">Try Again</div>
+        </div>
+    </div>
+    <div id="directions">
+        <div id="leftMove" class="material-icons-outlined box direction hideModal">
+            west
+        </div>
+        <div id="rightMove" class="material-icons-outlined box direction hideModal">
+            east
+        </div>
+        <div id="upMove" class="material-icons-outlined box direction hideModal">
+            arrow_upward
+        </div>
+        <div id="downMove" class="material-icons-outlined box direction hideModal">
+            arrow_downward
+        </div>
+    </div>
+    
+    <div id="firstPage" class="page section hideModal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <h1>Snake Game</h1>
+                        <span>using Hand and Face Recognition</span>
+                        <button id="playButton" class="btn btn-dark">Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="secondPage" class="page section hideModal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <span>Already Have an account</span>
+                        <button id="loginButton" class="btn btn-dark" disabled="true" >Login as <div id="username"></div></button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <span>New user</span>
+                        <button id="registerButton">Register</button>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- <div id="thirdPage" class="page section hideModal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <video id="videoInput" width="720px" height="550px" muted autoplay></video>
+                        <button id="playLoginButton">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div id="forthPage" class="page section hideModal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <label for"canvas">Canvas:</label><br />
+                        <canvas id="canvas"></canvas><br />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="box card">
+                        <label for"video_camera">Video tag</label><br />
+                        <video id="videoInput">Video stream not available.</video><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container hideModal hideModal">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <button id="start_camera_button" type="text">Start Camera</button>
+                    <button id="take_picture_button" type="text" disabled>Take Picture</button>
+                    <button id="clear_picture_button" type="text" disabled>Clear Picture</button>
+                    <button id="upload_button" type="text" disabled>Upload Picture</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div id="loading">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </div>
+
+    <canvas id="handDetector" width="360px" height="255px"></canvas>
+    <canvas id="faceLandmarkDetector" width="360px" height="255px"></canvas>
+    <video id="videoInput" width="360px" height="255px" muted autoplay></video>
+
+    <!-- include bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <script src="js/utils.js"></script>
+    <script src="js/snake-game.js"></script>
+    <script defer async src="js/face-api.min.js"></script>
+    <script defer async src="js/detection.js"></script>
+    <!-- <script defer async src="js/camera.js"></script> -->
+</body>
+
+</html>
