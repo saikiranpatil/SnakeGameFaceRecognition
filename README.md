@@ -18,7 +18,11 @@ $ cd SnakeGameFaceRecognition
 
 Download it from here: https://docs.mongodb.com/manual/administration/install-community/
 
-### 3. Run Server
+### 3. Add images
+
+Add two Images with jpg format in a folder with it's name as name of the person in public/labelled_images 
+
+### 4. Run Server
 
 ```
 $ npm install
