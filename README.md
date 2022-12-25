@@ -2,8 +2,7 @@
 Snake game devloped using js, face recognition using faceapi.js and hand recognition using mediapipe.js.
 
 ## Video Demo
-https://drive.google.com/file/d/1_5uLYU21elCubbUSpC6_qBF7NiPW9Ro7/view?usp=sharing
-
+https://user-images.githubusercontent.com/84263946/209482642-d82ed855-7724-4f0b-8f5f-23d7af39d286.mp4
 
 ## Run Locally
 
